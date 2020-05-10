@@ -1,7 +1,12 @@
 ﻿namespace Logger.Test
 {
+    /// <summary>
+    /// Test Values for the <see cref="Logger.Test"/> namespace
+    /// </summary>
     public static class TestValues
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         public static LogLevel LogLevel { get; } = LogLevel.Debug;
 
         public static string LogName { get; } = nameof(LogName);
@@ -27,5 +32,7 @@
         public static ILogger FileLogger { get; } = new FileLogger(logLevel: LogLevel,
             logFilePath: LogFilePath,
             logName: LogName);
+
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }

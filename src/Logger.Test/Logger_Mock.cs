@@ -9,7 +9,6 @@
         /// Create a new instance of <see cref="Logger_Mock"/>
         /// </summary>
         /// <param name="logLevel">LogLevel - Defaults to <see cref="LogLevel.Information"/></param>
-        /// <param name="logFilePath">File path to the log file</param>
         /// <param name="logName">Log name</param>
         public Logger_Mock(LogLevel logLevel,
             string logName) : base(logLevel: logLevel, logName: logName)
