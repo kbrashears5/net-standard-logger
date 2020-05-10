@@ -5,12 +5,12 @@ using System.Linq;
 namespace Logger
 {
     /// <summary>
-    /// Implementation of <see cref="ILogger"/>
+    /// Base implementation of <see cref="ILogger"/>
     /// </summary>
     public abstract class BaseLogger : ILogger
     {
         /// <summary>
-        /// Log level that was passed to class
+        /// Log level
         /// </summary>
         public LogLevel LogLevel { get; private set; }
 
@@ -20,15 +20,16 @@ namespace Logger
         private string LogName { get; }
 
         /// <summary>
-        /// Length of the longest <see cref="Common.LogLevel"/>
+        /// Length of the longest <see cref="Logger.LogLevel"/>
         /// </summary>
         private int LongestLengthEnumName { get; }
 
         /// <summary>
-        /// Create a new instance of <see cref="Logger"/>
+        /// Create a new instance of <see cref="BaseLogger"/>
         /// </summary>
         /// <param name="logLevel">LogLevel - Defaults to <see cref="LogLevel.Information"/></param>
-        /// <param name="logDestination">Where to log to. Defaults to <see cref="LogDestination.Console"/></param>
+        /// <param name="logName">Name of the log</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public BaseLogger(LogLevel logLevel,
             string logName)
         {
@@ -40,10 +41,10 @@ namespace Logger
         }
 
         /// <summary>
-        /// Change the <see cref="LogLevel"/> for the given implementation of <see cref="ILogger"/>
+        /// Change the <see cref="Logger.LogLevel"/> for the given implementation of <see cref="ILogger"/>
         /// </summary>
         /// <param name="logLevel"></param>
-        public void ChangeLogLevel(LogLevel logLevel)
+        public void SetLogLevel(LogLevel logLevel)
         {
             this.LogLevel = logLevel;
         }
@@ -51,10 +52,10 @@ namespace Logger
         /// <summary>
         /// Create the log message
         /// </summary>
-        /// <param name="logLevel"></param>
-        /// <param name="message"></param>
-        /// <param name="logMessageEmpty"></param>
-        /// <param name="tabs"></param>
+        /// <param name="logLevel"><see cref="Logger.LogLevel"/> to log</param>
+        /// <param name="message">The message to log</param>
+        /// <param name="logMessageEmpty">Is the log message empty or not</param>
+        /// <param name="tabs">How many tabs to push the log by</param>
         /// <returns></returns>
         protected string CreateLogMessage(LogLevel logLevel,
             string message,
@@ -76,27 +77,27 @@ namespace Logger
                     message);
             }
 
-            logMessageEmpty = string.IsNullOrWhiteSpace(logMessage) ? true : false;
+            logMessageEmpty = string.IsNullOrWhiteSpace(logMessage);
 
             return logMessage;
         }
 
         /// <summary>
-        /// Creates the <see cref="Common.LogLevel"/> string
+        /// Creates the <see cref="Logger.LogLevel"/> string
         /// </summary>
-        /// <param name="logLevel">LogLevel to log</param>
+        /// <param name="logLevel"><see cref="Logger.LogLevel"/> to log</param>
         /// <returns></returns>
         private string CreateLogLevelString(LogLevel logLevel)
         {
             var enumLength = Enum.GetName(enumType: typeof(LogLevel),
                 value: logLevel).Length;
 
-            int length = this.LongestLengthEnumName - enumLength;
+            var length = this.LongestLengthEnumName - enumLength;
 
             var logLevelString = string.Format("[{0}]",
                 logLevel.ToString());
 
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
                 logLevelString += " ";
             }
@@ -105,7 +106,7 @@ namespace Logger
         }
 
         /// <summary>
-        /// Gets the length of the longest name in <see cref="Common.LogLevel"/> for spacing purposes
+        /// Gets the length of the longest name in <see cref="Logger.LogLevel"/> for spacing purposes
         /// </summary>
         /// <returns></returns>
         private int GetLongestEnumNameLength()
@@ -147,6 +148,35 @@ namespace Logger
         public abstract void Initialize();
 
         /// <summary>
+        /// Log <see cref="LogLevel.Debug"/> message
+        /// </summary>
+        /// <param name="message">Message to log</param>
+        /// <param name="tabs">Number of tabs to offset</param>
+        public void LogDebug(string message,
+            int tabs = 0)
+        {
+            this.Output(logLevel: LogLevel.Error,
+              message: message,
+              tabs: tabs);
+        }
+
+        /// <summary>
+        /// Log IEnumerable <see cref="LogLevel.Debug"/> message
+        /// </summary>
+        /// <param name="title">Title of the list</param>
+        /// <param name="items">=IEnumerable to log</param>
+        /// <param name="tabs">Number of tabs to offset</param>
+        public void LogDebug(string title,
+            IEnumerable<string> items,
+            int tabs = 0)
+        {
+            this.OutputList(logLevel: LogLevel.Error,
+                title: title,
+                items: items,
+                tabs: tabs);
+        }
+
+        /// <summary>
         /// Log <see cref="LogLevel.Error"/> message
         /// </summary>
         /// <param name="message">Message to log</param>
@@ -163,7 +193,7 @@ namespace Logger
         /// Log IEnumerable <see cref="LogLevel.Error"/> message
         /// </summary>
         /// <param name="title">Title of the list</param>
-        /// <param name="items"><see cref="IEnumerable{string}"/> of to log</param>
+        /// <param name="items">=IEnumerable to log</param>
         /// <param name="tabs">Number of tabs to offset</param>
         public void LogError(string title,
             IEnumerable<string> items,
@@ -192,7 +222,7 @@ namespace Logger
         /// Log IEnumerable <see cref="LogLevel.Information"/> message
         /// </summary>
         /// <param name="title">Title of the list</param>
-        /// <param name="items"><see cref="IEnumerable{string}"/> of to log</param>
+        /// <param name="items">IEnumerable to log</param>
         /// <param name="tabs">Number of tabs to offset</param>
         public void LogInformation(string title,
             IEnumerable<string> items,
@@ -221,7 +251,7 @@ namespace Logger
         /// Log IEnumerable <see cref="LogLevel.Trace"/> message
         /// </summary>
         /// <param name="title">Title of the list</param>
-        /// <param name="items"><see cref="IEnumerable{string}"/> of to log</param>
+        /// <param name="items">IEnumerable to log</param>
         /// <param name="tabs">Number of tabs to offset</param>
         public void LogTrace(string title,
             IEnumerable<string> items,
@@ -250,7 +280,7 @@ namespace Logger
         /// Log IEnumerable <see cref="LogLevel.Warning"/> message
         /// </summary>
         /// <param name="title">Title of the list</param>
-        /// <param name="items"><see cref="IEnumerable{string}"/> of to log</param>
+        /// <param name="items">IEnumerable to log</param>
         /// <param name="tabs">Number of tabs to offset</param>
         public void LogWarning(string title,
             IEnumerable<string> items,
@@ -273,12 +303,13 @@ namespace Logger
             int tabs = 0);
 
         /// <summary>
-        /// Output <see cref="IEnumerable{string}"/> to log
+        /// Output IEnumerable
         /// </summary>
         /// <param name="logLevel">LogLevel</param>
         /// <param name="title">Title of the list</param>
-        /// <param name="items"><see cref="IEnumerable{string}"/> of to log</param>
+        /// <param name="items">IEnumerable to log</param>
         /// <param name="tabs">Number of tabs to offset</param>
+        /// <exception cref="ArgumentNullException"></exception>
         private void OutputList(LogLevel logLevel,
             string title,
             IEnumerable<string> items,

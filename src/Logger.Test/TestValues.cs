@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace Logger.Test
+﻿namespace Logger.Test
 {
     public static class TestValues
     {
-        public static LogLevel LogLevel { get; } = LogLevel.Trace;
+        public static LogLevel LogLevel { get; } = LogLevel.Debug;
 
         public static string LogName { get; } = nameof(LogName);
 
@@ -23,5 +21,11 @@ namespace Logger.Test
             logName: LogName);
 
         public static string Title { get; } = nameof(Title);
+
+        public static string LogFilePath { get; } = @"C:\Windows\system32\drivers\etc\hosts";
+
+        public static ILogger FileLogger { get; } = new FileLogger(logLevel: LogLevel,
+            logFilePath: LogFilePath,
+            logName: LogName);
     }
 }

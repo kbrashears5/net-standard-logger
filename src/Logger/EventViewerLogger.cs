@@ -22,6 +22,7 @@ namespace Logger
         /// <param name="logLevel">LogLevel - Defaults to <see cref="LogLevel.Information"/></param>
         /// <param name="eventLogSource">Event log source name</param>
         /// <param name="logName">Log name</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public EventViewerLogger(LogLevel logLevel,
             string eventLogSource,
             string logName) : base(logLevel: logLevel, logName: logName)
@@ -51,7 +52,7 @@ namespace Logger
                 // catch the not running as admin exception
                 catch (SecurityException)
                 {
-                    throw new Common.NotRunningAsAdminException();
+                    throw new NotRunningAsAdminException();
                 }
                 // catch any other exception
                 catch (Exception ex)
@@ -67,6 +68,7 @@ namespace Logger
         /// <param name="logLevel">LogLevel</param>
         /// <param name="message">Message to log</param>
         /// <param name="tabs">Number of tabs to offset</param>
+        /// <exception cref="ArgumentNullException"></exception>
         protected override void Output(LogLevel logLevel,
             string message,
             int tabs = 0)
@@ -124,6 +126,8 @@ namespace Logger
         /// <param name="message"></param>
         /// <param name="chunkSize"></param>
         /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         private IEnumerable<string> SplitMessage(string message,
             int chunkSize)
         {

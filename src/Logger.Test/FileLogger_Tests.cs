@@ -1,13 +1,13 @@
-using Common.Test;
+using NetStandardTestHelper.Xunit;
 using System;
 using Xunit;
 
 namespace Logger.Test
 {
     /// <summary>
-    /// Test <see cref="EventViewerLogger"/>
+    /// Test <see cref="FileLogger"/>
     /// </summary>
-    public class EventViewerLogger_Tests
+    public class FileLogger_Tests
     {
         #region Constructor
 
@@ -17,8 +17,8 @@ namespace Logger.Test
         [Fact]
         public void Constructor()
         {
-            var logger = new EventViewerLogger(logLevel: LogLevel.Information,
-                eventLogSource: TestValues.EventLogSource,
+            var logger = new FileLogger(logLevel: LogLevel.Information,
+                logFilePath: TestValues.LogFilePath,
                 logName: TestValues.LogName);
 
             Assert.NotNull(logger);
@@ -28,14 +28,14 @@ namespace Logger.Test
         /// Test that constructor throws for null event log source
         /// </summary>
         [Fact]
-        public void Constructor_Null_EventLogSource()
+        public void Constructor_Null_logFilePath()
         {
-            var ex = Assert.Throws<ArgumentNullException>(() => new EventViewerLogger(logLevel: TestValues.LogLevel,
-                eventLogSource: Common.Test.TestValues.EmptyString,
+            var ex = Assert.Throws<ArgumentNullException>(() => new FileLogger(logLevel: TestValues.LogLevel,
+                logFilePath: NetStandardTestHelper.TestValues.StringEmpty,
                 logName: TestValues.LogName));
 
-            TestHelper.AssertEqualArgumentNullException(ex,
-                "eventLogSource");
+            TestHelper.AssertArgumentNullException(ex,
+                "logFilePath");
         }
 
         /// <summary>
@@ -44,11 +44,11 @@ namespace Logger.Test
         [Fact]
         public void Constructor_Null_LogName()
         {
-            var ex = Assert.Throws<ArgumentNullException>(() => new EventViewerLogger(logLevel: TestValues.LogLevel,
-                eventLogSource: TestValues.EventLogSource,
-                logName: Common.Test.TestValues.EmptyString));
+            var ex = Assert.Throws<ArgumentNullException>(() => new FileLogger(logLevel: TestValues.LogLevel,
+                logFilePath: TestValues.LogFilePath,
+                logName: NetStandardTestHelper.TestValues.StringEmpty));
 
-            TestHelper.AssertEqualArgumentNullException(ex,
+            TestHelper.AssertArgumentNullException(ex,
                 "logName");
         }
 
@@ -62,8 +62,8 @@ namespace Logger.Test
         [Fact]
         public void GetLogName()
         {
-            var logger = new EventViewerLogger(logLevel: LogLevel.Information,
-                eventLogSource: TestValues.EventLogSource,
+            var logger = new FileLogger(logLevel: LogLevel.Information,
+                logFilePath: TestValues.LogFilePath,
                 logName: TestValues.LogName);
 
             var logName = logger.GetLogName();
@@ -82,11 +82,11 @@ namespace Logger.Test
         [Fact]
         public void ChangeLogLevel()
         {
-            var logger = new EventViewerLogger(logLevel: LogLevel.Information,
-                eventLogSource: TestValues.EventLogSource,
+            var logger = new FileLogger(logLevel: LogLevel.Information,
+                logFilePath: TestValues.LogFilePath,
                 logName: TestValues.LogName);
 
-            logger.ChangeLogLevel(logLevel: LogLevel.Trace);
+            logger.SetLogLevel(logLevel: LogLevel.Trace);
 
             Assert.Equal(LogLevel.Trace,
                 logger.LogLevel);
@@ -102,10 +102,10 @@ namespace Logger.Test
         [Fact]
         public void ErrorList_Null_Title()
         {
-            var ex = Assert.Throws<ArgumentNullException>(() => TestValues.EventViewerLogger.LogError(title: Common.Test.TestValues.EmptyString,
-                items: Common.Test.TestValues.NullStringList));
+            var ex = Assert.Throws<ArgumentNullException>(() => TestValues.FileLogger.LogError(title: NetStandardTestHelper.TestValues.StringEmpty,
+                items: NetStandardTestHelper.TestValues.IEnumerableStringNull));
 
-            TestHelper.AssertEqualArgumentNullException(ex,
+            TestHelper.AssertArgumentNullException(ex,
                 "title");
         }
 
@@ -115,10 +115,10 @@ namespace Logger.Test
         [Fact]
         public void ErrorList_Null_List()
         {
-            var ex = Assert.Throws<ArgumentNullException>(() => TestValues.EventViewerLogger.LogError(title: TestValues.Title,
-                items: Common.Test.TestValues.NullStringList));
+            var ex = Assert.Throws<ArgumentNullException>(() => TestValues.FileLogger.LogError(title: TestValues.Title,
+                items: NetStandardTestHelper.TestValues.IEnumerableStringNull));
 
-            TestHelper.AssertEqualArgumentNullException(ex,
+            TestHelper.AssertArgumentNullException(ex,
                 "items");
         }
 
@@ -132,10 +132,10 @@ namespace Logger.Test
         [Fact]
         public void InformationList_Null_Title()
         {
-            var ex = Assert.Throws<ArgumentNullException>(() => TestValues.EventViewerLogger.LogInformation(title: Common.Test.TestValues.EmptyString,
-                items: Common.Test.TestValues.NullStringList));
+            var ex = Assert.Throws<ArgumentNullException>(() => TestValues.FileLogger.LogInformation(title: NetStandardTestHelper.TestValues.StringEmpty,
+                items: NetStandardTestHelper.TestValues.IEnumerableStringNull));
 
-            TestHelper.AssertEqualArgumentNullException(ex,
+            TestHelper.AssertArgumentNullException(ex,
                 "title");
         }
 
@@ -145,10 +145,10 @@ namespace Logger.Test
         [Fact]
         public void InformationList_Null_List()
         {
-            var ex = Assert.Throws<ArgumentNullException>(() => TestValues.EventViewerLogger.LogInformation(title: TestValues.Title,
-                items: Common.Test.TestValues.NullStringList));
+            var ex = Assert.Throws<ArgumentNullException>(() => TestValues.FileLogger.LogInformation(title: TestValues.Title,
+                items: NetStandardTestHelper.TestValues.IEnumerableStringNull));
 
-            TestHelper.AssertEqualArgumentNullException(ex,
+            TestHelper.AssertArgumentNullException(ex,
                 "items");
         }
 
@@ -162,10 +162,10 @@ namespace Logger.Test
         [Fact]
         public void TraceList_Null_Title()
         {
-            var ex = Assert.Throws<ArgumentNullException>(() => TestValues.EventViewerLogger.LogTrace(title: Common.Test.TestValues.EmptyString,
-                items: Common.Test.TestValues.NullStringList));
+            var ex = Assert.Throws<ArgumentNullException>(() => TestValues.FileLogger.LogTrace(title: NetStandardTestHelper.TestValues.StringEmpty,
+                items: NetStandardTestHelper.TestValues.IEnumerableStringNull));
 
-            TestHelper.AssertEqualArgumentNullException(ex,
+            TestHelper.AssertArgumentNullException(ex,
                 "title");
         }
 
@@ -175,10 +175,10 @@ namespace Logger.Test
         [Fact]
         public void TraceList_Null_List()
         {
-            var ex = Assert.Throws<ArgumentNullException>(() => TestValues.EventViewerLogger.LogTrace(title: TestValues.Title,
-                items: Common.Test.TestValues.NullStringList));
+            var ex = Assert.Throws<ArgumentNullException>(() => TestValues.FileLogger.LogTrace(title: TestValues.Title,
+                items: NetStandardTestHelper.TestValues.IEnumerableStringNull));
 
-            TestHelper.AssertEqualArgumentNullException(ex,
+            TestHelper.AssertArgumentNullException(ex,
                 "items");
         }
 
@@ -192,10 +192,10 @@ namespace Logger.Test
         [Fact]
         public void WarningList_Null_Title()
         {
-            var ex = Assert.Throws<ArgumentNullException>(() => TestValues.EventViewerLogger.LogWarning(title: Common.Test.TestValues.EmptyString,
-                items: Common.Test.TestValues.NullStringList));
+            var ex = Assert.Throws<ArgumentNullException>(() => TestValues.FileLogger.LogWarning(title: NetStandardTestHelper.TestValues.StringEmpty,
+                items: NetStandardTestHelper.TestValues.IEnumerableStringNull));
 
-            TestHelper.AssertEqualArgumentNullException(ex,
+            TestHelper.AssertArgumentNullException(ex,
                 "title");
         }
 
@@ -205,10 +205,10 @@ namespace Logger.Test
         [Fact]
         public void WarningList_Null_List()
         {
-            var ex = Assert.Throws<ArgumentNullException>(() => TestValues.EventViewerLogger.LogWarning(title: TestValues.Title,
-                items: Common.Test.TestValues.NullStringList));
+            var ex = Assert.Throws<ArgumentNullException>(() => TestValues.FileLogger.LogWarning(title: TestValues.Title,
+                items: NetStandardTestHelper.TestValues.IEnumerableStringNull));
 
-            TestHelper.AssertEqualArgumentNullException(ex,
+            TestHelper.AssertArgumentNullException(ex,
                 "items");
         }
 

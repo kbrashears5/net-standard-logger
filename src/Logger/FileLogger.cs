@@ -19,6 +19,7 @@ namespace Logger
         /// <param name="logLevel">LogLevel - Defaults to <see cref="LogLevel.Information"/></param>
         /// <param name="logFilePath">File path to the log file</param>
         /// <param name="logName">Log name</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public FileLogger(LogLevel logLevel,
             string logFilePath,
             string logName) : base(logLevel: logLevel, logName: logName)
@@ -34,7 +35,7 @@ namespace Logger
             lock (this.LogFilePath)
             {
                 if (!File.Exists(path: this.LogFilePath))
-                    File.Create(path: this.LogFilePath);
+                    _ = File.Create(path: this.LogFilePath);
             }
         }
 
@@ -44,6 +45,7 @@ namespace Logger
         /// <param name="logLevel"></param>
         /// <param name="message"></param>
         /// <param name="tabs"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         protected override void Output(LogLevel logLevel,
             string message,
             int tabs = 0)
@@ -65,7 +67,7 @@ namespace Logger
             {
                 using (var streamWriter = new StreamWriter(path: this.LogFilePath, append: true))
                 {
-                    streamWriter.WriteLineAsync(value: logMessage);
+                    _ = streamWriter.WriteLineAsync(value: logMessage);
 
                     streamWriter.Close();
                 }

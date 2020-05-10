@@ -31,6 +31,7 @@ namespace Logger
         /// <param name="logLevel"></param>
         /// <param name="message"></param>
         /// <param name="tabs"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         protected override void Output(LogLevel logLevel,
             string message,
             int tabs = 0)
