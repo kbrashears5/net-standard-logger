@@ -1,9 +1,13 @@
 # define pipeline number (https://docs.microsoft.com/en-us/azure/devops/pipelines/build/options?view=azure-devops&tabs=yaml#build-number-format)
 name: 1.0$(Rev:.r)
 
-# define variables (https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=example#variables)
-variables:
-  ArtifactName: 'Build'
+# define resources (https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=example#repository-resource)
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: kbrashears5/yaml
+      endpoint: kbrashears5
 
 # define build triggers (https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=example#trigger)
 trigger:
@@ -14,9 +18,9 @@ trigger:
     include:
     - src/*
 
-# build % release
+# build solution and create nuget package
 stages:
-- template: build.yml
+- template: templates/build-dotnet.yml@templates
   parameters:
-    ArtifactName: $(ArtifactName)
-    SolutionName: '*.sln'
+    pack: true
+    filesToPack: '**/Logger.csproj'
