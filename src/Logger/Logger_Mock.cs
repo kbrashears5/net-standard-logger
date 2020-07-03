@@ -1,4 +1,4 @@
-﻿namespace Logger.Test
+﻿namespace Logger
 {
     /// <summary>
     /// Mock implementation of <see cref="ILogger"/>
