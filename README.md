@@ -1,6 +1,15 @@
 # Net Standard Logger
 Logger implementation for Net Standard libraries
 
+| Status | |
+| --- | --- |
+| **Build** | [![Build Status](https://dev.azure.com/kbrashears5/github/_apis/build/status/kbrashears5.net-standard-logger?branchName=master)](https://dev.azure.com/kbrashears5/github/_build/latest?definitionId=5&branchName=master) |
+| **Tests** | [![Tests](https://img.shields.io/azure-devops/tests/kbrashears5/github/5)](https://img.shields.io/azure-devops/tests/kbrashears5/github/5)
+| **Code Coverage** | [![Code Coverage](https://img.shields.io/azure-devops/coverage/kbrashears5/github/5)](https://img.shields.io/azure-devops/coverage/kbrashears5/github/5)
+| **NuGet** | [![nuget](https://img.shields.io/nuget/v/NetStandardLogger.svg)](https://www.nuget.org/packages/NetStandardLogger/)
+| **Downloads** | [![nuget](https://img.shields.io/nuget/dt/NetStandardLogger)](https://img.shields.io/nuget/dt/NetStandardLogger)
+
+## Loggers
 ### Console Logger
 Use the `ConsoleLogger` to log to the console
 
