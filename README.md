@@ -1,4 +1,6 @@
 # Net Standard Logger
+[![Build Status](https://dev.azure.com/kbrashears5/github/_apis/build/status/kbrashears5.net-standard-logger?branchName=master)](https://dev.azure.com/kbrashears5/github/_build/latest?definitionId=5&branchName=master)
+
 Logger implementation for Net Standard libraries
 
 ### Console Logger
