@@ -22,6 +22,6 @@ trigger:
 stages:
 - template: templates/build-dotnet-core.yml@templates
   parameters:
-    pack: true
+    pack: false
     filesToPack: '**/Logger.csproj'
     testProjects: '**/Logger.Test.csproj'
