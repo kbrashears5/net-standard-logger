@@ -38,5 +38,10 @@ namespace Logger
         /// Errors <see cref="LogLevel"/>. Errors only
         /// </summary>
         Error = 2,
+
+        /// <summary>
+        /// No logging
+        /// </summary>
+        Off = 3,
     };
 }

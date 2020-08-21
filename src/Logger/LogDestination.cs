@@ -23,6 +23,6 @@ namespace Logger
         /// <summary>
         /// Output to a file
         /// </summary>
-        File
+        File = 2,
     }
 }

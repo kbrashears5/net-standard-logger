@@ -38,6 +38,25 @@ namespace Logger.Test
 
         #endregion Constructor
 
+        #region IDisposable
+
+        /// <summary>
+        /// Test that <see cref="IDisposable"/> is disposed correctly
+        /// </summary>
+        [Fact]
+        public void IDisposable()
+        {
+            var logger = new ConsoleLogger(logLevel: LogLevel.Information,
+                logName: TestValues.LogName);
+
+            logger.Dispose();
+
+            Assert.Equal(Logger.LogLevel.Off,
+                logger.LogLevel);
+        }
+
+        #endregion IDisposable
+
         #region GetLogName
 
         /// <summary>

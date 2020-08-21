@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Logger
 {
     /// <summary>
     /// Interface for a Logger
     /// </summary>
-    public interface ILogger
+    public interface ILogger : IDisposable
     {
         /// <summary>
         /// Get the log level

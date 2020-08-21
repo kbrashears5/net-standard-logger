@@ -15,6 +15,38 @@
         {
         }
 
+        #region IDisposable
+
+        /// <summary>
+        /// Disposed
+        /// </summary>
+        private bool Disposed { get; set; } = false;
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected new virtual void Dispose(bool disposing)
+        {
+            if (!this.Disposed)
+            {
+                base.Dispose(disposing: disposing);
+
+                if (disposing)
+                {
+                }
+
+                this.Disposed = true;
+            }
+        }
+
+        /// <summary>
+        /// Finalizer
+        /// </summary>
+        ~Logger_Mock() => this.Dispose(disposing: false);
+
+        #endregion IDisposable
+
         /// <summary>
         /// Initialize
         /// </summary>

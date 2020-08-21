@@ -17,12 +17,12 @@ namespace Logger
         /// <summary>
         /// Name of the <see cref="ILogger"/>
         /// </summary>
-        private string LogName { get; }
+        private string LogName { get; set; }
 
         /// <summary>
         /// Length of the longest <see cref="Logger.LogLevel"/>
         /// </summary>
-        private int LongestLengthEnumName { get; }
+        private int LongestLengthEnumName { get; set; }
 
         /// <summary>
         /// Create a new instance of <see cref="BaseLogger"/>
@@ -39,6 +39,51 @@ namespace Logger
 
             this.LongestLengthEnumName = this.GetLongestEnumNameLength();
         }
+
+        #region IDisposable
+
+        /// <summary>
+        /// Disposed
+        /// </summary>
+        private bool Disposed { get; set; } = false;
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.Disposed)
+            {
+                if (disposing)
+                {
+                    this.LogLevel = Logger.LogLevel.Off;
+
+                    this.LogName = string.Empty;
+
+                    this.LongestLengthEnumName = 0;
+                }
+
+                this.Disposed = true;
+            }
+        }
+
+        /// <summary>
+        /// Finalizer
+        /// </summary>
+        ~BaseLogger() => this.Dispose(disposing: false);
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(disposing: true);
+
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion IDisposable
 
         /// <summary>
         /// Change the <see cref="Logger.LogLevel"/> for the given implementation of <see cref="ILogger"/>
@@ -64,7 +109,13 @@ namespace Logger
         {
             var logMessage = string.Empty;
 
-            if (logLevel >= this.LogLevel)
+            if (logLevel == Logger.LogLevel.Off)
+            {
+                logMessageEmpty = true;
+
+                return string.Empty;
+            }
+            else if (logLevel >= this.LogLevel)
             {
                 var dateTime = DateTime.Now;
 

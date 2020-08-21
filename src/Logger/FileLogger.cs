@@ -27,6 +27,37 @@ namespace Logger
             this.LogFilePath = string.IsNullOrWhiteSpace(logFilePath) ? throw new ArgumentNullException(nameof(logFilePath)) : logFilePath;
         }
 
+        #region IDisposable
+
+        /// <summary>
+        /// Disposed
+        /// </summary>
+        private bool Disposed { get; set; } = false;
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            if (!this.Disposed)
+            {
+                base.Dispose(disposing: disposing);
+
+                if (disposing)
+                    this.LogFilePath = string.Empty;
+
+                this.Disposed = true;
+            }
+        }
+
+        /// <summary>
+        /// Finalizer
+        /// </summary>
+        ~FileLogger() => this.Dispose(disposing: false);
+
+        #endregion IDisposable
+
         /// <summary>
         /// Initialize the <see cref="LogDestination.File"/>
         /// </summary>

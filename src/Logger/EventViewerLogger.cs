@@ -30,6 +30,37 @@ namespace Logger
             this.EventLogSource = string.IsNullOrWhiteSpace(eventLogSource) ? throw new ArgumentNullException(nameof(eventLogSource)) : eventLogSource;
         }
 
+        #region IDisposable
+
+        /// <summary>
+        /// Disposed
+        /// </summary>
+        private bool Disposed { get; set; } = false;
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            if (!this.Disposed)
+            {
+                base.Dispose(disposing: disposing);
+
+                if (disposing)
+                    this.EventLogSource = string.Empty;
+
+                this.Disposed = true;
+            }
+        }
+
+        /// <summary>
+        /// Finalizer
+        /// </summary>
+        ~EventViewerLogger() => this.Dispose(disposing: false);
+
+        #endregion IDisposable
+
         /// <summary>
         /// Initialize the <see cref="LogDestination.EventViewer"/>
         /// </summary>

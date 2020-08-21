@@ -17,6 +17,38 @@ namespace Logger
         {
         }
 
+        #region IDisposable
+
+        /// <summary>
+        /// Disposed
+        /// </summary>
+        private bool Disposed { get; set; } = false;
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            if (!this.Disposed)
+            {
+                base.Dispose(disposing: disposing);
+
+                if (disposing)
+                {
+                }
+
+                this.Disposed = true;
+            }
+        }
+
+        /// <summary>
+        /// Finalizer
+        /// </summary>
+        ~ConsoleLogger() => this.Dispose(disposing: false);
+
+        #endregion IDisposable
+
         /// <summary>
         /// Initialize the <see cref="LogDestination.Console"/>
         /// </summary>
