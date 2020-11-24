@@ -12,6 +12,7 @@
     <RepositoryUrl>https://github.com/kbrashears5/net-standard-logger</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>logger;file;eventlog;eventviewer;console;ilogger;mock</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
